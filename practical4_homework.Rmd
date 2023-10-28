@@ -1,0 +1,62 @@
+---
+title: "Practical4 Homework"
+author: "xu"
+date: "2023-10-27"
+output: html_document
+---
+
+load the packages
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(janitor)
+library(sf)
+```
+
+Load the csv and shape files
+```{r}
+#load the csv file and assign na to all null values
+dataset <- read_csv("datafolder/homework_dataset.csv",na=" ") %>%
+   dplyr::rename(index_2010="gii_2010",index_2019="gii_2019")%>%
+  select(country,index_2010,index_2019)
+shapefile <- st_read("../World_Countries_Generalized/World_Countries_Generalized.shp")
+
+```
+
+
+
+```{r}
+dataset <- na.omit(dataset)
+#remove the NAs in dataset
+newdataset <- dataset %>%
+  mutate(difference=(index_2019-index_2010))
+# create a new column using the index of 2010 subtract from the index of 2019
+
+
+joined_data <- shapefile %>% 
+ 
+  left_join(., 
+            newdataset,
+            by = c("COUNTRY"="country"))
+# left join the data
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
