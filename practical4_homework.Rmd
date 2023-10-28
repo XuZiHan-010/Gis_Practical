@@ -16,6 +16,7 @@ library(sf)
 Load the csv and shape files
 ```{r}
 #load the csv file and assign na to all null values
+#the data set has been renamed as 'homework_dataset' and it's under the directory 'datafolder' 
 dataset <- read_csv("datafolder/homework_dataset.csv",na=" ") %>%
    dplyr::rename(index_2010="gii_2010",index_2019="gii_2019")%>%
   select(country,index_2010,index_2019)
